@@ -10,65 +10,80 @@
 *{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#0f172a;--surface:#1e293b;--surface2:#263348;
-  --border:#334155;--accent:#38bdf8;--accent2:#818cf8;
-  --green:#34d399;--red:#f87171;--text:#f1f5f9;--muted:#94a3b8;
+  --border:#334155;--accent:#38bdf8;--green:#34d399;
+  --red:#f87171;--text:#f1f5f9;--muted:#94a3b8;
 }
 body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column}
-.topbar{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;background:var(--surface);border-bottom:1px solid var(--border);flex-wrap:wrap;gap:8px}
-.logo{font-size:1.1rem;font-weight:700;color:var(--accent)}
-select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 10px;font-size:0.78rem;color:var(--text);outline:none}
-.actions{display:flex;gap:8px;flex-wrap:wrap}
-.btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-size:0.75rem;color:var(--muted);cursor:pointer;transition:all 0.15s}
-.btn:hover{border-color:var(--accent);color:var(--accent)}
+
+/* TOPBAR */
+.topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap}
+.logo{font-size:1rem;font-weight:700;color:var(--accent);white-space:nowrap}
+select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:0.75rem;color:var(--text);outline:none;max-width:140px}
+
+/* BUTTONS */
+.actions{display:flex;gap:6px;flex-wrap:wrap}
+.btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:0.73rem;color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap}
+.btn:active{transform:scale(0.96)}
 .btn.green{border-color:rgba(52,211,153,0.4);color:var(--green)}
 .btn.red{border-color:rgba(248,113,113,0.3);color:var(--red)}
+.btn.accent{border-color:rgba(56,189,248,0.4);color:var(--accent)}
 
-/* MIC SECTION */
-.mic-section{display:flex;flex-direction:column;align-items:center;padding:24px 16px 16px;gap:12px;background:var(--surface);border-bottom:1px solid var(--border)}
-.mic-btn{width:80px;height:80px;border-radius:50%;border:2px solid var(--border);background:var(--surface2);cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all 0.25s;font-size:2rem}
-.mic-btn:hover{border-color:var(--accent);background:rgba(56,189,248,0.1)}
-.mic-btn.listening{border-color:var(--red);background:rgba(248,113,113,0.15);animation:pulse 1.4s ease-in-out infinite}
-@keyframes pulse{0%,100%{box-shadow:0 0 0 0 rgba(248,113,113,0.3)}50%{box-shadow:0 0 0 16px rgba(248,113,113,0)}}
-.status{font-size:0.78rem;color:var(--muted);text-align:center}
-.status.on{color:var(--red)}
+/* GUIDE BANNER */
+.guide{background:linear-gradient(135deg,rgba(56,189,248,0.12),rgba(129,140,248,0.08));border:1px solid rgba(56,189,248,0.25);border-radius:12px;margin:14px;padding:14px 16px;text-align:center}
+.guide h3{font-size:0.9rem;color:var(--accent);margin-bottom:6px}
+.guide p{font-size:0.78rem;color:var(--muted);line-height:1.6}
+.guide .steps{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap}
+.guide .step{display:flex;flex-direction:column;align-items:center;gap:4px}
+.guide .step .icon{font-size:1.8rem}
+.guide .step .label{font-size:0.68rem;color:var(--muted)}
 
-/* WAVEFORM */
-.wave{display:flex;align-items:center;gap:3px;height:28px;opacity:0;transition:opacity 0.3s}
-.wave.active{opacity:1}
-.wave span{width:3px;background:linear-gradient(to top,var(--accent),var(--accent2));border-radius:2px;animation:wb 0.7s ease-in-out infinite}
-.wave span:nth-child(1){animation-delay:0s}
-.wave span:nth-child(2){animation-delay:0.1s}
-.wave span:nth-child(3){animation-delay:0.2s}
-.wave span:nth-child(4){animation-delay:0.15s}
-.wave span:nth-child(5){animation-delay:0.05s}
-@keyframes wb{0%,100%{height:4px}50%{height:22px}}
+/* TEXTAREA ZONE */
+.editor-section{flex:1;display:flex;flex-direction:column;padding:0 14px 14px}
+.editor-label{font-size:0.72rem;color:var(--muted);margin-bottom:6px;margin-top:4px}
 
-/* EDITOR */
-.editor-wrap{flex:1;overflow-y:auto;padding:20px}
-#editor{font-size:1.05rem;line-height:1.85;color:var(--text);min-height:200px;outline:none;white-space:pre-wrap;word-break:break-word}
-#editor:empty::before{content:attr(data-ph);color:var(--muted);font-style:italic;pointer-events:none}
-.interim{color:var(--accent);opacity:0.7}
+#editor{
+  flex:1;
+  min-height:260px;
+  background:var(--surface);
+  border:2px solid var(--border);
+  border-radius:12px;
+  padding:16px;
+  font-size:1rem;
+  line-height:1.8;
+  color:var(--text);
+  resize:none;
+  outline:none;
+  font-family:inherit;
+  transition:border-color 0.2s;
+  width:100%;
+}
+#editor:focus{border-color:var(--accent)}
+#editor::placeholder{color:var(--muted);font-style:italic}
 
-/* STATUSBAR */
+/* BIG MIC BUTTON */
+.mic-section{display:flex;flex-direction:column;align-items:center;padding:6px 14px 14px;gap:8px}
+.mic-big{width:100%;padding:16px;background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(129,140,248,0.1));border:2px solid rgba(56,189,248,0.4);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--accent);transition:all 0.2s}
+.mic-big:active{transform:scale(0.97);background:rgba(56,189,248,0.2)}
+.mic-big .icon{font-size:1.8rem}
+
+/* WORD COUNT */
 .statusbar{padding:8px 16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);background:var(--surface)}
 
 /* MODAL */
-.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.6);display:none;align-items:center;justify-content:center;z-index:100}
+.modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
 .modal-bg.open{display:flex}
-.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:28px;width:340px;max-width:90vw}
-.modal h2{font-size:1.2rem;color:var(--accent);margin-bottom:8px}
-.modal p{font-size:0.82rem;color:var(--muted);margin-bottom:16px}
-.modal select{width:100%;margin-bottom:14px;padding:10px}
-#translate-result{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:14px;font-size:0.88rem;line-height:1.7;max-height:160px;overflow-y:auto}
+.modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;width:100%;max-width:360px}
+.modal h2{font-size:1.1rem;color:var(--accent);margin-bottom:6px}
+.modal p{font-size:0.8rem;color:var(--muted);margin-bottom:14px}
+.modal select{width:100%;margin-bottom:12px;padding:10px;font-size:0.85rem}
+#translate-result{display:none;background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:12px;font-size:0.85rem;line-height:1.7;max-height:180px;overflow-y:auto;color:var(--text)}
 .modal-btns{display:flex;gap:8px;margin-bottom:10px}
-.btn-primary{flex:1;padding:10px;background:linear-gradient(135deg,var(--accent),var(--accent2));border:none;border-radius:8px;color:#0f172a;font-weight:700;font-size:0.82rem;cursor:pointer}
-.btn-close{width:100%;padding:9px;background:none;border:1px solid var(--border);border-radius:8px;color:var(--muted);font-size:0.82rem;cursor:pointer}
+.btn-primary{flex:1;padding:11px;background:linear-gradient(135deg,var(--accent),#818cf8);border:none;border-radius:10px;color:#0f172a;font-weight:700;font-size:0.82rem;cursor:pointer}
+.btn-close{width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:0.82rem;cursor:pointer}
 
-.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:0.8rem;color:var(--text);opacity:0;transition:all 0.3s;pointer-events:none;z-index:200;white-space:nowrap}
+/* TOAST */
+.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:0.8rem;color:var(--text);opacity:0;transition:all 0.3s;pointer-events:none;z-index:200;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
-
-/* ANDROID NOTICE */
-.android-notice{background:rgba(56,189,248,0.1);border:1px solid rgba(56,189,248,0.3);border-radius:10px;padding:12px 16px;margin:16px;font-size:0.82rem;color:var(--accent);text-align:center;display:none}
 </style>
 </head>
 <body>
@@ -91,44 +106,51 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
     <option value="hi-IN">🇮🇳 हिन्दी</option>
     <option value="tr-TR">🇹🇷 Türkçe</option>
     <option value="nl-NL">🇳🇱 Nederlands</option>
-    <option value="pl-PL">🇵🇱 Polski</option>
-    <option value="uk-UA">🇺🇦 Українська</option>
-    <option value="he-IL">🇮🇱 עברית</option>
-    <option value="fa-IR">🇮🇷 فارسی</option>
-    <option value="vi-VN">🇻🇳 Tiếng Việt</option>
-    <option value="th-TH">🇹🇭 ภาษาไทย</option>
-    <option value="id-ID">🇮🇩 Bahasa Indonesia</option>
-    <option value="ms-MY">🇲🇾 Bahasa Melayu</option>
     <option value="sw-KE">🇰🇪 Kiswahili</option>
   </select>
   <div class="actions">
+    <button class="btn accent" onclick="openTranslate()">🌍 Traduire</button>
     <button class="btn" onclick="copyText()">📋 Copier</button>
-    <button class="btn green" onclick="openTranslate()">🌍 Traduire</button>
     <button class="btn" onclick="exportTxt()">📤 Exporter</button>
-    <button class="btn red" onclick="clearText()">🗑 Effacer</button>
+    <button class="btn red" onclick="clearText()">🗑</button>
   </div>
 </div>
 
-<!-- ANDROID NOTICE -->
-<div class="android-notice" id="android-notice">
-  📱 Sur Android : appuyez sur le micro puis parlez. Le texte apparaîtra automatiquement !
-</div>
-
-<!-- MIC SECTION -->
-<div class="mic-section">
-  <button class="mic-btn" id="mic-btn" onclick="toggleMic()" title="Cliquez pour parler">
-    🎤
-  </button>
-  <div class="wave" id="wave">
-    <span></span><span></span><span></span><span></span><span></span>
+<!-- GUIDE -->
+<div class="guide">
+  <h3>🎤 Comment dicter votre texte ?</h3>
+  <div class="steps">
+    <div class="step">
+      <div class="icon">1️⃣</div>
+      <div class="label">Appuyez sur<br>la zone texte</div>
+    </div>
+    <div class="step">
+      <div class="icon">⌨️</div>
+      <div class="label">Le clavier<br>s'ouvre</div>
+    </div>
+    <div class="step">
+      <div class="icon">🎤</div>
+      <div class="label">Appuyez sur<br>le micro 🎤</div>
+    </div>
+    <div class="step">
+      <div class="icon">🗣️</div>
+      <div class="label">Parlez et<br>le texte écrit !</div>
+    </div>
   </div>
-  <div class="status" id="status">Appuyez sur le micro pour commencer</div>
 </div>
 
 <!-- EDITOR -->
-<div class="editor-wrap">
-  <div id="editor" contenteditable="true" spellcheck="true"
-    data-ph="Votre texte s'écrira ici pendant que vous parlez…"></div>
+<div class="editor-section">
+  <div class="editor-label">📝 Zone de dictée — Tapez ici ou utilisez le micro de votre clavier</div>
+  <textarea id="editor" placeholder="Appuyez ici pour ouvrir le clavier, puis appuyez sur 🎤 pour dicter..." oninput="updateStats()"></textarea>
+</div>
+
+<!-- MIC BUTTON -->
+<div class="mic-section">
+  <button class="mic-big" onclick="focusEditor()">
+    <span class="icon">🎤</span>
+    <span>Appuyez ici puis utilisez le micro 🎤 du clavier</span>
+  </button>
 </div>
 
 <!-- STATUSBAR -->
@@ -141,7 +163,7 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
 <div class="modal-bg" id="translate-bg" onclick="closeTranslateIfBg(event)">
   <div class="modal">
     <h2>🌍 Traduire</h2>
-    <p>Choisissez la langue cible</p>
+    <p>Choisissez la langue cible pour la traduction</p>
     <select id="translate-lang">
       <option value="fr">🇫🇷 Français</option>
       <option value="en">🇺🇸 Anglais</option>
@@ -154,261 +176,146 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
       <option value="zh">🇨🇳 Chinois</option>
       <option value="ja">🇯🇵 Japonais</option>
       <option value="tr">🇹🇷 Turc</option>
+      <option value="nl">🇳🇱 Néerlandais</option>
+      <option value="ko">🇰🇷 Coréen</option>
+      <option value="hi">🇮🇳 Hindi</option>
+      <option value="sw">🇰🇪 Swahili</option>
     </select>
     <div id="translate-result"></div>
     <div class="modal-btns">
       <button class="btn-primary" onclick="doTranslate()" id="translate-btn">🌍 Traduire</button>
-      <button class="btn" onclick="copyTranslation()" id="copy-trans-btn" style="display:none">📋 Copier</button>
+      <button class="btn accent" onclick="copyTranslation()" id="copy-trans-btn" style="display:none">📋 Copier</button>
     </div>
-    <button class="btn-close" onclick="closeTranslate()">Fermer</button>
+    <button class="btn-close" onclick="closeTranslate()">✕ Fermer</button>
   </div>
 </div>
 
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── DETECTION ANDROID ─────────────────────────────────
-const isAndroid = /Android/i.test(navigator.userAgent);
-const isWebView = /wv|WebView/i.test(navigator.userAgent) || 
-                  (isAndroid && /Version\/\d/.test(navigator.userAgent));
+// ─── CLOCK ─────────────────────────────────────────
+function updateClock(){
+  const n=new Date();
+  document.getElementById('time-display').textContent=
+    n.toLocaleTimeString('fr-FR',{hour:'2-digit',minute:'2-digit'});
+}
+setInterval(updateClock,1000);updateClock();
 
-if (isAndroid) {
-  document.getElementById('android-notice').style.display = 'block';
+// ─── FOCUS EDITOR ──────────────────────────────────
+function focusEditor(){
+  const ed=document.getElementById('editor');
+  ed.focus();
+  // Scroll to editor
+  ed.scrollIntoView({behavior:'smooth',block:'center'});
+  toast('✅ Maintenant appuyez sur 🎤 de votre clavier pour dicter !');
 }
 
-// ─── SPEECH RECOGNITION SETUP ──────────────────────────
-const SR = window.SpeechRecognition || 
-           window.webkitSpeechRecognition || 
-           window.MediaStreamTrackProcessor ||
-           null;
-
-let recognition = null;
-let isListening = false;
-let finalText = '';
-
-// ─── CLOCK ─────────────────────────────────────────────
-function updateClock() {
-  const now = new Date();
-  document.getElementById('time-display').textContent = 
-    now.toLocaleTimeString('fr-FR', {hour:'2-digit',minute:'2-digit'});
-}
-setInterval(updateClock, 1000); updateClock();
-
-// ─── MIC TOGGLE ────────────────────────────────────────
-function toggleMic() {
-  if (!SR) {
-    // Android WebView fallback - show keyboard input
-    showAndroidFallback();
-    return;
-  }
-  isListening ? stopListening() : startListening();
+// ─── STATS ─────────────────────────────────────────
+function updateStats(){
+  const text=document.getElementById('editor').value.trim();
+  const words=text?text.split(/\s+/).filter(Boolean).length:0;
+  document.getElementById('wc').textContent=`${words} mot${words!==1?'s':''}`;
 }
 
-function showAndroidFallback() {
-  toast('💡 Sur Android : utilisez le clavier vocal de votre téléphone. Appuyez sur 🎤 sur le clavier !');
-  // Try to focus the editor so keyboard appears
-  const editor = document.getElementById('editor');
-  editor.focus();
-  // Show instruction
-  document.getElementById('status').textContent = 'Utilisez le micro 🎤 de votre clavier Android !';
+// ─── ACTIONS ───────────────────────────────────────
+function copyText(){
+  const text=document.getElementById('editor').value.trim();
+  if(!text){toast('Rien à copier');return;}
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(text)
+      .then(()=>toast('📋 Texte copié !'))
+      .catch(()=>fallbackCopy(text));
+  } else { fallbackCopy(text); }
 }
 
-function buildRec() {
-  const r = new SR();
-  r.continuous = true;
-  r.interimResults = true;
-  r.lang = document.getElementById('lang-sel').value;
-
-  r.onstart = () => {
-    isListening = true;
-    document.getElementById('mic-btn').classList.add('listening');
-    document.getElementById('wave').classList.add('active');
-    document.getElementById('status').textContent = 'Écoute en cours — Parlez !';
-    document.getElementById('status').classList.add('on');
-  };
-
-  r.onend = () => { if (isListening) { try { r.start(); } catch(e) {} } };
-
-  r.onerror = (e) => {
-    console.log('Speech error:', e.error);
-    if (e.error === 'not-allowed') {
-      toast('🎤 Microphone non autorisé — vérifiez les permissions');
-      stopListening();
-    } else if (e.error === 'service-not-allowed' || e.error === 'network') {
-      toast('💡 Utilisez le micro 🎤 de votre clavier Android !');
-      stopListening();
-      document.getElementById('editor').focus();
-    }
-  };
-
-  r.onresult = (e) => {
-    let interim = '';
-    for (let i = e.resultIndex; i < e.results.length; i++) {
-      const t = e.results[i][0].transcript;
-      if (e.results[i].isFinal) finalText += t + ' ';
-      else interim += t;
-    }
-    render(interim);
-    updateStats();
-  };
-  return r;
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.focus();ta.select();
+  try{document.execCommand('copy');toast('📋 Texte copié !');}
+  catch(e){toast('❌ Erreur copie');}
+  document.body.removeChild(ta);
 }
 
-function startListening() {
-  try {
-    recognition = buildRec();
-    isListening = true;
-    recognition.start();
-  } catch(e) {
-    showAndroidFallback();
-  }
-}
-
-function stopListening() {
-  isListening = false;
-  if (recognition) { try { recognition.stop(); } catch(e) {} }
-  document.getElementById('mic-btn').classList.remove('listening');
-  document.getElementById('wave').classList.remove('active');
-  document.getElementById('status').textContent = 'Appuyez sur le micro pour recommencer';
-  document.getElementById('status').classList.remove('on');
-  render('');
-}
-
-function render(interim) {
-  const editor = document.getElementById('editor');
-  editor.innerHTML = '';
-  if (finalText) editor.appendChild(document.createTextNode(finalText));
-  if (interim) {
-    const s = document.createElement('span');
-    s.className = 'interim';
-    s.textContent = interim;
-    editor.appendChild(s);
-  }
-}
-
-// ─── EDITOR INPUT ───────────────────────────────────────
-document.getElementById('editor').addEventListener('input', () => {
-  finalText = document.getElementById('editor').textContent;
-  updateStats();
-});
-
-function updateStats() {
-  const text = getPlainText().trim();
-  const words = text ? text.split(/\s+/).filter(Boolean).length : 0;
-  document.getElementById('wc').textContent = `${words} mot${words !== 1 ? 's' : ''}`;
-}
-
-function getPlainText() {
-  return document.getElementById('editor').textContent || '';
-}
-
-// ─── ACTIONS ───────────────────────────────────────────
-function copyText() {
-  const text = getPlainText().trim();
-  if (!text) { toast('Rien à copier'); return; }
-  navigator.clipboard.writeText(text)
-    .then(() => toast('📋 Texte copié !'))
-    .catch(() => {
-      // Fallback for Android
-      const ta = document.createElement('textarea');
-      ta.value = text;
-      document.body.appendChild(ta);
-      ta.select();
-      document.execCommand('copy');
-      document.body.removeChild(ta);
-      toast('📋 Texte copié !');
-    });
-}
-
-function clearText() {
-  if (!getPlainText().trim()) return;
-  stopListening();
-  finalText = '';
-  document.getElementById('editor').innerHTML = '';
+function clearText(){
+  if(!document.getElementById('editor').value.trim())return;
+  document.getElementById('editor').value='';
   updateStats();
   toast('🗑 Texte effacé');
 }
 
-function exportTxt() {
-  const text = getPlainText().trim();
-  if (!text) { toast('Rien à exporter'); return; }
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(new Blob([text], {type:'text/plain;charset=utf-8'}));
-  a.download = 'dictee.txt';
+function exportTxt(){
+  const text=document.getElementById('editor').value.trim();
+  if(!text){toast('Rien à exporter');return;}
+  const a=document.createElement('a');
+  a.href=URL.createObjectURL(new Blob([text],{type:'text/plain;charset=utf-8'}));
+  a.download='dictee_'+new Date().toISOString().slice(0,10)+'.txt';
   a.click();
-  toast('📄 Fichier téléchargé !');
+  toast('📄 Fichier exporté !');
 }
 
-// ─── TRANSLATION ────────────────────────────────────────
-let lastTranslation = '';
+// ─── TRANSLATION ───────────────────────────────────
+let lastTranslation='';
 
-function openTranslate() {
-  const text = getPlainText().trim();
-  if (!text) { toast('Rien à traduire'); return; }
-  document.getElementById('translate-result').style.display = 'none';
-  document.getElementById('copy-trans-btn').style.display = 'none';
+function openTranslate(){
+  const text=document.getElementById('editor').value.trim();
+  if(!text){toast('Écrivez du texte d\'abord !');return;}
+  document.getElementById('translate-result').style.display='none';
+  document.getElementById('copy-trans-btn').style.display='none';
   document.getElementById('translate-bg').classList.add('open');
 }
 
-function closeTranslate() {
+function closeTranslate(){
   document.getElementById('translate-bg').classList.remove('open');
 }
 
-function closeTranslateIfBg(e) {
-  if (e.target === document.getElementById('translate-bg')) closeTranslate();
+function closeTranslateIfBg(e){
+  if(e.target===document.getElementById('translate-bg'))closeTranslate();
 }
 
-async function doTranslate() {
-  const text = getPlainText().trim();
-  const lang = document.getElementById('translate-lang').value;
-  const btn = document.getElementById('translate-btn');
-  const resultEl = document.getElementById('translate-result');
-  if (!text) { toast('Rien à traduire'); return; }
-  btn.textContent = '⏳ En cours…';
-  btn.disabled = true;
-  try {
-    const res = await fetch(`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,500))}&langpair=auto|${lang}`);
-    const data = await res.json();
-    if (data.responseStatus === 200) {
-      lastTranslation = data.responseData.translatedText;
-      resultEl.textContent = lastTranslation;
-      resultEl.style.display = 'block';
-      document.getElementById('copy-trans-btn').style.display = 'flex';
+async function doTranslate(){
+  const text=document.getElementById('editor').value.trim();
+  const lang=document.getElementById('translate-lang').value;
+  const btn=document.getElementById('translate-btn');
+  const resultEl=document.getElementById('translate-result');
+  if(!text){toast('Rien à traduire');return;}
+  btn.textContent='⏳ En cours…';btn.disabled=true;
+  try{
+    const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,500))}&langpair=auto|${lang}`;
+    const res=await fetch(url);
+    const data=await res.json();
+    if(data.responseStatus===200){
+      lastTranslation=data.responseData.translatedText;
+      resultEl.textContent=lastTranslation;
+      resultEl.style.display='block';
+      document.getElementById('copy-trans-btn').style.display='flex';
       toast('✅ Traduction terminée !');
-    } else { toast('❌ Erreur de traduction'); }
-  } catch { toast('❌ Erreur réseau'); }
-  btn.textContent = '🌍 Traduire';
-  btn.disabled = false;
-}
-
-function copyTranslation() {
-  if (!lastTranslation) return;
-  navigator.clipboard.writeText(lastTranslation)
-    .then(() => toast('📋 Traduction copiée !'))
-    .catch(() => toast('Erreur'));
-}
-
-// ─── TOAST ──────────────────────────────────────────────
-let toastTimer = null;
-function toast(msg) {
-  const el = document.getElementById('toast');
-  el.textContent = msg;
-  el.classList.add('show');
-  clearTimeout(toastTimer);
-  toastTimer = setTimeout(() => el.classList.remove('show'), 3000);
-}
-
-// ─── LANG CHANGE ────────────────────────────────────────
-document.getElementById('lang-sel').addEventListener('change', () => {
-  if (isListening) { stopListening(); setTimeout(startListening, 200); }
-});
-
-// ─── KEYBOARD SHORTCUT ──────────────────────────────────
-document.addEventListener('keydown', e => {
-  if ((e.ctrlKey || e.metaKey) && e.key === 'c' && !window.getSelection().toString()) {
-    copyText();
+    } else {
+      resultEl.textContent='❌ Erreur : '+data.responseDetails;
+      resultEl.style.display='block';
+    }
+  } catch(e){
+    resultEl.textContent='❌ Erreur réseau. Vérifiez votre connexion.';
+    resultEl.style.display='block';
   }
-});
+  btn.textContent='🌍 Traduire';btn.disabled=false;
+}
+
+function copyTranslation(){
+  if(!lastTranslation)return;
+  if(navigator.clipboard){
+    navigator.clipboard.writeText(lastTranslation).then(()=>toast('📋 Traduction copiée !'));
+  } else { fallbackCopy(lastTranslation); }
+}
+
+// ─── TOAST ─────────────────────────────────────────
+let toastTimer=null;
+function toast(msg){
+  const el=document.getElementById('toast');
+  el.textContent=msg;el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer=setTimeout(()=>el.classList.remove('show'),3200);
+}
 
 updateStats();
 </script>
