@@ -281,7 +281,8 @@ async function doTranslate(){
   if(!text){toast('Rien à traduire');return;}
   btn.textContent='⏳ En cours…';btn.disabled=true;
   try{
-    const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,500))}&langpair=auto|${lang}`;
+    const srcLang=document.getElementById('lang-sel').value.slice(0,2);
+    const url=`https://api.mymemory.translated.net/get?q=${encodeURIComponent(text.slice(0,500))}&langpair=${srcLang}|${lang}`;
     const res=await fetch(url);
     const data=await res.json();
     if(data.responseStatus===200){
