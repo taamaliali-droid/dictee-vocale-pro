@@ -121,36 +121,37 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
   <h3>🎤 Comment dicter votre texte ?</h3>
   <div class="steps">
     <div class="step">
-      <div class="icon">1️⃣</div>
-      <div class="label">Appuyez sur<br>la zone texte</div>
-    </div>
-    <div class="step">
-      <div class="icon">⌨️</div>
-      <div class="label">Le clavier<br>s'ouvre</div>
-    </div>
-    <div class="step">
       <div class="icon">🎤</div>
-      <div class="label">Appuyez sur<br>le micro 🎤</div>
+      <div class="label">Appuyez sur<br>le bouton micro</div>
+    </div>
+    <div class="step">
+      <div class="icon">🔴</div>
+      <div class="label">Il devient<br>rouge</div>
     </div>
     <div class="step">
       <div class="icon">🗣️</div>
-      <div class="label">Parlez et<br>le texte écrit !</div>
+      <div class="label">Parlez<br>normalement</div>
+    </div>
+    <div class="step">
+      <div class="icon">✍️</div>
+      <div class="label">Le texte<br>s'écrit !</div>
     </div>
   </div>
 </div>
 
 <!-- EDITOR -->
 <div class="editor-section">
-  <div class="editor-label">📝 Zone de dictée — Tapez ici ou utilisez le micro de votre clavier</div>
-  <textarea id="editor" placeholder="Appuyez ici pour ouvrir le clavier, puis appuyez sur 🎤 pour dicter..." oninput="updateStats()"></textarea>
+  <div class="editor-label">📝 Zone de dictée</div>
+  <textarea id="editor" placeholder="Appuyez sur le micro ci-dessous pour dicter, ou tapez ici directement..." oninput="updateStats()"></textarea>
 </div>
 
 <!-- MIC BUTTON -->
 <div class="mic-section">
-  <button class="mic-big" onclick="focusEditor()">
-    <span class="icon">🎤</span>
-    <span>Appuyez ici puis utilisez le micro 🎤 du clavier</span>
+  <button class="mic-big" id="mic-btn" onclick="toggleMic()">
+    <span class="icon" id="mic-icon">🎤</span>
+    <span id="mic-label">Appuyez pour parler</span>
   </button>
+  <div class="status" id="mic-status" style="font-size:0.75rem;color:var(--muted);margin-top:6px"></div>
 </div>
 
 <!-- STATUSBAR -->
@@ -201,7 +202,100 @@ function updateClock(){
 }
 setInterval(updateClock,1000);updateClock();
 
-// ─── FOCUS EDITOR ──────────────────────────────────
+// ─── SPEECH RECOGNITION ─────────────────────────────
+const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
+let recognition = null;
+let isListening = false;
+
+function toggleMic(){
+  if(!SR){
+    toast('🎤 Reconnaissance vocale non disponible — utilisez le clavier');
+    focusEditor();
+    return;
+  }
+  isListening ? stopListening() : startListening();
+}
+
+function buildRecognition(){
+  const r = new SR();
+  r.continuous = true;
+  r.interimResults = true;
+  r.lang = document.getElementById('lang-sel').value;
+
+  r.onstart = () => {
+    isListening = true;
+    document.getElementById('mic-btn').style.borderColor = 'var(--red)';
+    document.getElementById('mic-btn').style.background = 'rgba(248,113,113,0.15)';
+    document.getElementById('mic-icon').textContent = '🔴';
+    document.getElementById('mic-label').textContent = 'Écoute... Parlez !';
+    document.getElementById('mic-status').textContent = '🎙️ Microphone actif';
+  };
+
+  r.onend = () => {
+    if(isListening){
+      try{ r.start(); } catch(e){ stopListening(); }
+    }
+  };
+
+  r.onerror = (e) => {
+    console.log('Speech error:', e.error);
+    if(e.error === 'not-allowed' || e.error === 'permission-denied'){
+      toast('🎤 Permission microphone refusée — vérifiez les paramètres');
+      stopListening();
+    } else if(e.error === 'no-speech'){
+      // ignore, keep listening
+    } else if(e.error === 'network' || e.error === 'service-not-allowed'){
+      toast('💡 Reconnaissance vocale indisponible ici — utilisez le clavier 🎤');
+      stopListening();
+      focusEditor();
+    }
+  };
+
+  r.onresult = (e) => {
+    let interim = '';
+    let finalAdd = '';
+    for(let i = e.resultIndex; i < e.results.length; i++){
+      const t = e.results[i][0].transcript;
+      if(e.results[i].isFinal) finalAdd += t + ' ';
+      else interim += t;
+    }
+    const editor = document.getElementById('editor');
+    if(finalAdd){
+      editor.value = (editor.value + ' ' + finalAdd).trim() + ' ';
+      updateStats();
+    }
+    document.getElementById('mic-status').textContent = interim ? ('… ' + interim) : '🎙️ Microphone actif';
+  };
+
+  return r;
+}
+
+function startListening(){
+  try{
+    recognition = buildRecognition();
+    isListening = true;
+    recognition.start();
+  } catch(e){
+    toast('🎤 Impossible de démarrer le micro — utilisez le clavier');
+    focusEditor();
+  }
+}
+
+function stopListening(){
+  isListening = false;
+  if(recognition){ try{ recognition.stop(); } catch(e){} }
+  document.getElementById('mic-btn').style.borderColor = '';
+  document.getElementById('mic-btn').style.background = '';
+  document.getElementById('mic-icon').textContent = '🎤';
+  document.getElementById('mic-label').textContent = 'Appuyez pour parler';
+  document.getElementById('mic-status').textContent = '';
+}
+
+document.getElementById('lang-sel').addEventListener('change', () => {
+  if(isListening){ stopListening(); setTimeout(startListening, 200); }
+});
+
+// ─── FOCUS EDITOR (fallback) ────────────────────────
 function focusEditor(){
   const ed=document.getElementById('editor');
   ed.focus();
