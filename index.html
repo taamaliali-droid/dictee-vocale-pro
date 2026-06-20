@@ -15,12 +15,10 @@
 }
 body{background:var(--bg);color:var(--text);font-family:'Plus Jakarta Sans',sans-serif;min-height:100vh;display:flex;flex-direction:column}
 
-/* TOPBAR */
 .topbar{display:flex;align-items:center;justify-content:space-between;padding:12px 16px;background:var(--surface);border-bottom:1px solid var(--border);gap:8px;flex-wrap:wrap}
 .logo{font-size:1rem;font-weight:700;color:var(--accent);white-space:nowrap}
 select{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:6px 8px;font-size:0.75rem;color:var(--text);outline:none;max-width:140px}
 
-/* BUTTONS */
 .actions{display:flex;gap:6px;flex-wrap:wrap}
 .btn{background:var(--surface2);border:1px solid var(--border);border-radius:8px;padding:7px 10px;font-size:0.73rem;color:var(--muted);cursor:pointer;transition:all 0.15s;white-space:nowrap}
 .btn:active{transform:scale(0.96)}
@@ -28,48 +26,26 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
 .btn.red{border-color:rgba(248,113,113,0.3);color:var(--red)}
 .btn.accent{border-color:rgba(56,189,248,0.4);color:var(--accent)}
 
-/* GUIDE BANNER */
-.guide{background:linear-gradient(135deg,rgba(56,189,248,0.12),rgba(129,140,248,0.08));border:1px solid rgba(56,189,248,0.25);border-radius:12px;margin:14px;padding:14px 16px;text-align:center}
-.guide h3{font-size:0.9rem;color:var(--accent);margin-bottom:6px}
-.guide p{font-size:0.78rem;color:var(--muted);line-height:1.6}
-.guide .steps{display:flex;justify-content:center;gap:16px;margin-top:10px;flex-wrap:wrap}
-.guide .step{display:flex;flex-direction:column;align-items:center;gap:4px}
-.guide .step .icon{font-size:1.8rem}
-.guide .step .label{font-size:0.68rem;color:var(--muted)}
+/* BIG MIC AREA — opens keyboard + tells user exactly where to tap */
+.mic-zone{margin:16px;border:2px solid var(--accent);border-radius:16px;background:linear-gradient(135deg,rgba(56,189,248,0.12),rgba(129,140,248,0.06));padding:18px;text-align:center;cursor:pointer;transition:all 0.2s}
+.mic-zone:active{transform:scale(0.98)}
+.mic-zone .big-icon{font-size:2.4rem;margin-bottom:6px}
+.mic-zone h3{font-size:0.95rem;color:var(--accent);margin-bottom:4px}
+.mic-zone p{font-size:0.78rem;color:var(--muted);line-height:1.5}
 
-/* TEXTAREA ZONE */
-.editor-section{flex:1;display:flex;flex-direction:column;padding:0 14px 14px}
-.editor-label{font-size:0.72rem;color:var(--muted);margin-bottom:6px;margin-top:4px}
-
+.editor-section{flex:1;display:flex;flex-direction:column;padding:0 16px 16px}
 #editor{
-  flex:1;
-  min-height:260px;
-  background:var(--surface);
-  border:2px solid var(--border);
-  border-radius:12px;
-  padding:16px;
-  font-size:1rem;
-  line-height:1.8;
-  color:var(--text);
-  resize:none;
-  outline:none;
-  font-family:inherit;
-  transition:border-color 0.2s;
-  width:100%;
+  flex:1;min-height:240px;background:var(--surface);
+  border:2px solid var(--border);border-radius:12px;padding:16px;
+  font-size:1.05rem;line-height:1.8;color:var(--text);
+  resize:none;outline:none;font-family:inherit;
+  transition:border-color 0.2s;width:100%;
 }
 #editor:focus{border-color:var(--accent)}
 #editor::placeholder{color:var(--muted);font-style:italic}
 
-/* BIG MIC BUTTON */
-.mic-section{display:flex;flex-direction:column;align-items:center;padding:6px 14px 14px;gap:8px}
-.mic-big{width:100%;padding:16px;background:linear-gradient(135deg,rgba(56,189,248,0.15),rgba(129,140,248,0.1));border:2px solid rgba(56,189,248,0.4);border-radius:14px;display:flex;align-items:center;justify-content:center;gap:12px;cursor:pointer;font-size:0.9rem;font-weight:600;color:var(--accent);transition:all 0.2s}
-.mic-big:active{transform:scale(0.97);background:rgba(56,189,248,0.2)}
-.mic-big .icon{font-size:1.8rem}
-
-/* WORD COUNT */
 .statusbar{padding:8px 16px;border-top:1px solid var(--border);display:flex;justify-content:space-between;font-size:0.72rem;color:var(--muted);background:var(--surface)}
 
-/* MODAL */
 .modal-bg{position:fixed;inset:0;background:rgba(0,0,0,0.65);display:none;align-items:center;justify-content:center;z-index:100;padding:16px}
 .modal-bg.open{display:flex}
 .modal{background:var(--surface);border:1px solid var(--border);border-radius:16px;padding:24px;width:100%;max-width:360px}
@@ -81,14 +57,12 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
 .btn-primary{flex:1;padding:11px;background:linear-gradient(135deg,var(--accent),#818cf8);border:none;border-radius:10px;color:#0f172a;font-weight:700;font-size:0.82rem;cursor:pointer}
 .btn-close{width:100%;padding:10px;background:none;border:1px solid var(--border);border-radius:10px;color:var(--muted);font-size:0.82rem;cursor:pointer}
 
-/* TOAST */
 .toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(16px);background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 18px;font-size:0.8rem;color:var(--text);opacity:0;transition:all 0.3s;pointer-events:none;z-index:200;white-space:nowrap;box-shadow:0 4px 20px rgba(0,0,0,0.3)}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 </style>
 </head>
 <body>
 
-<!-- TOPBAR -->
 <div class="topbar">
   <div class="logo">🎙️ Dictée Vocale Pro</div>
   <select id="lang-sel">
@@ -102,11 +76,7 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
     <option value="ru-RU">🇷🇺 Русский</option>
     <option value="zh-CN">🇨🇳 中文</option>
     <option value="ja-JP">🇯🇵 日本語</option>
-    <option value="ko-KR">🇰🇷 한국어</option>
-    <option value="hi-IN">🇮🇳 हिन्दी</option>
     <option value="tr-TR">🇹🇷 Türkçe</option>
-    <option value="nl-NL">🇳🇱 Nederlands</option>
-    <option value="sw-KE">🇰🇪 Kiswahili</option>
   </select>
   <div class="actions">
     <button class="btn accent" onclick="openTranslate()">🌍 Traduire</button>
@@ -116,51 +86,21 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
   </div>
 </div>
 
-<!-- GUIDE -->
-<div class="guide">
-  <h3>🎤 Comment dicter votre texte ?</h3>
-  <div class="steps">
-    <div class="step">
-      <div class="icon">🎤</div>
-      <div class="label">Appuyez sur<br>le bouton micro</div>
-    </div>
-    <div class="step">
-      <div class="icon">🔴</div>
-      <div class="label">Il devient<br>rouge</div>
-    </div>
-    <div class="step">
-      <div class="icon">🗣️</div>
-      <div class="label">Parlez<br>normalement</div>
-    </div>
-    <div class="step">
-      <div class="icon">✍️</div>
-      <div class="label">Le texte<br>s'écrit !</div>
-    </div>
-  </div>
+<div class="mic-zone" onclick="focusEditor()">
+  <div class="big-icon">🎤</div>
+  <h3>Appuyez ici pour dicter</h3>
+  <p>Le clavier va s'ouvrir → appuyez sur le micro 🎤 du clavier → parlez normalement</p>
 </div>
 
-<!-- EDITOR -->
 <div class="editor-section">
-  <div class="editor-label">📝 Zone de dictée</div>
-  <textarea id="editor" placeholder="Appuyez sur le micro ci-dessous pour dicter, ou tapez ici directement..." oninput="updateStats()"></textarea>
+  <textarea id="editor" placeholder="Votre texte apparaîtra ici..." oninput="updateStats()"></textarea>
 </div>
 
-<!-- MIC BUTTON -->
-<div class="mic-section">
-  <button class="mic-big" id="mic-btn" onclick="toggleMic()">
-    <span class="icon" id="mic-icon">🎤</span>
-    <span id="mic-label">Appuyez pour parler</span>
-  </button>
-  <div class="status" id="mic-status" style="font-size:0.75rem;color:var(--muted);margin-top:6px"></div>
-</div>
-
-<!-- STATUSBAR -->
 <div class="statusbar">
   <span id="wc">0 mot</span>
   <span id="time-display">--:--</span>
 </div>
 
-<!-- TRANSLATE MODAL -->
 <div class="modal-bg" id="translate-bg" onclick="closeTranslateIfBg(event)">
   <div class="modal">
     <h2>🌍 Traduire</h2>
@@ -177,10 +117,6 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
       <option value="zh">🇨🇳 Chinois</option>
       <option value="ja">🇯🇵 Japonais</option>
       <option value="tr">🇹🇷 Turc</option>
-      <option value="nl">🇳🇱 Néerlandais</option>
-      <option value="ko">🇰🇷 Coréen</option>
-      <option value="hi">🇮🇳 Hindi</option>
-      <option value="sw">🇰🇪 Swahili</option>
     </select>
     <div id="translate-result"></div>
     <div class="modal-btns">
@@ -194,7 +130,6 @@ select{background:var(--surface2);border:1px solid var(--border);border-radius:8
 <div class="toast" id="toast"></div>
 
 <script>
-// ─── CLOCK ─────────────────────────────────────────
 function updateClock(){
   const n=new Date();
   document.getElementById('time-display').textContent=
@@ -202,143 +137,18 @@ function updateClock(){
 }
 setInterval(updateClock,1000);updateClock();
 
-// ─── SPEECH RECOGNITION ─────────────────────────────
-const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
-let recognition = null;
-let isListening = false;
-let restartCount = 0;
-let restartWindowStart = 0;
-let restartTimer = null;
-
-function toggleMic(){
-  if(!SR){
-    toast('🎤 Reconnaissance vocale non disponible — utilisez le clavier');
-    focusEditor();
-    return;
-  }
-  isListening ? stopListening() : startListening();
-}
-
-function buildRecognition(){
-  const r = new SR();
-  r.continuous = true;
-  r.interimResults = true;
-  r.lang = document.getElementById('lang-sel').value;
-
-  r.onstart = () => {
-    document.getElementById('mic-btn').style.borderColor = 'var(--red)';
-    document.getElementById('mic-btn').style.background = 'rgba(248,113,113,0.15)';
-    document.getElementById('mic-icon').textContent = '🔴';
-    document.getElementById('mic-label').textContent = 'Écoute... Parlez !';
-    document.getElementById('mic-status').textContent = '🎙️ Microphone actif';
-  };
-
-  r.onend = () => {
-    if(!isListening) return;
-
-    // Detect rapid restart loop (mic restarting many times per second = broken)
-    const now = Date.now();
-    if(now - restartWindowStart > 5000){
-      restartWindowStart = now;
-      restartCount = 0;
-    }
-    restartCount++;
-
-    if(restartCount > 6){
-      // Too many restarts in 5 seconds = WebView mic is broken, give up gracefully
-      toast('🎤 Le micro ne reste pas connecté ici — utilisez le clavier 🎤 à la place');
-      stopListening();
-      focusEditor();
-      return;
-    }
-
-    // Small delay avoids the rapid "ding-ding-ding" restart sound
-    clearTimeout(restartTimer);
-    restartTimer = setTimeout(() => {
-      if(isListening){
-        try{ r.start(); } catch(e){ stopListening(); }
-      }
-    }, 300);
-  };
-
-  r.onerror = (e) => {
-    console.log('Speech error:', e.error);
-    if(e.error === 'not-allowed' || e.error === 'permission-denied'){
-      toast('🎤 Permission microphone refusée — vérifiez les paramètres');
-      stopListening();
-    } else if(e.error === 'no-speech' || e.error === 'aborted'){
-      // handled by onend restart logic, do nothing here
-    } else if(e.error === 'network' || e.error === 'service-not-allowed'){
-      toast('💡 Reconnaissance vocale indisponible ici — utilisez le clavier 🎤');
-      stopListening();
-      focusEditor();
-    }
-  };
-
-  r.onresult = (e) => {
-    let interim = '';
-    let finalAdd = '';
-    for(let i = e.resultIndex; i < e.results.length; i++){
-      const t = e.results[i][0].transcript;
-      if(e.results[i].isFinal) finalAdd += t + ' ';
-      else interim += t;
-    }
-    const editor = document.getElementById('editor');
-    if(finalAdd){
-      editor.value = (editor.value + ' ' + finalAdd).trim() + ' ';
-      updateStats();
-    }
-    document.getElementById('mic-status').textContent = interim ? ('… ' + interim) : '🎙️ Microphone actif';
-  };
-
-  return r;
-}
-
-function startListening(){
-  try{
-    restartCount = 0;
-    restartWindowStart = Date.now();
-    recognition = buildRecognition();
-    isListening = true;
-    recognition.start();
-  } catch(e){
-    toast('🎤 Impossible de démarrer le micro — utilisez le clavier');
-    focusEditor();
-  }
-}
-
-function stopListening(){
-  isListening = false;
-  clearTimeout(restartTimer);
-  if(recognition){ try{ recognition.stop(); } catch(e){} }
-  document.getElementById('mic-btn').style.borderColor = '';
-  document.getElementById('mic-btn').style.background = '';
-  document.getElementById('mic-icon').textContent = '🎤';
-  document.getElementById('mic-label').textContent = 'Appuyez pour parler';
-  document.getElementById('mic-status').textContent = '';
-}
-
-document.getElementById('lang-sel').addEventListener('change', () => {
-  if(isListening){ stopListening(); setTimeout(startListening, 200); }
-});
-
-// ─── FOCUS EDITOR (fallback) ────────────────────────
 function focusEditor(){
   const ed=document.getElementById('editor');
   ed.focus();
-  // Scroll to editor
   ed.scrollIntoView({behavior:'smooth',block:'center'});
-  toast('✅ Maintenant appuyez sur 🎤 de votre clavier pour dicter !');
 }
 
-// ─── STATS ─────────────────────────────────────────
 function updateStats(){
   const text=document.getElementById('editor').value.trim();
   const words=text?text.split(/\s+/).filter(Boolean).length:0;
   document.getElementById('wc').textContent=`${words} mot${words!==1?'s':''}`;
 }
 
-// ─── ACTIONS ───────────────────────────────────────
 function copyText(){
   const text=document.getElementById('editor').value.trim();
   if(!text){toast('Rien à copier');return;}
@@ -375,7 +185,6 @@ function exportTxt(){
   toast('📄 Fichier exporté !');
 }
 
-// ─── TRANSLATION ───────────────────────────────────
 let lastTranslation='';
 
 function openTranslate(){
@@ -430,7 +239,6 @@ function copyTranslation(){
   } else { fallbackCopy(lastTranslation); }
 }
 
-// ─── TOAST ─────────────────────────────────────────
 let toastTimer=null;
 function toast(msg){
   const el=document.getElementById('toast');
