@@ -206,6 +206,9 @@ setInterval(updateClock,1000);updateClock();
 const SR = window.SpeechRecognition || window.webkitSpeechRecognition || null;
 let recognition = null;
 let isListening = false;
+let restartCount = 0;
+let restartWindowStart = 0;
+let restartTimer = null;
 
 function toggleMic(){
   if(!SR){
@@ -223,7 +226,6 @@ function buildRecognition(){
   r.lang = document.getElementById('lang-sel').value;
 
   r.onstart = () => {
-    isListening = true;
     document.getElementById('mic-btn').style.borderColor = 'var(--red)';
     document.getElementById('mic-btn').style.background = 'rgba(248,113,113,0.15)';
     document.getElementById('mic-icon').textContent = '🔴';
@@ -232,9 +234,31 @@ function buildRecognition(){
   };
 
   r.onend = () => {
-    if(isListening){
-      try{ r.start(); } catch(e){ stopListening(); }
+    if(!isListening) return;
+
+    // Detect rapid restart loop (mic restarting many times per second = broken)
+    const now = Date.now();
+    if(now - restartWindowStart > 5000){
+      restartWindowStart = now;
+      restartCount = 0;
     }
+    restartCount++;
+
+    if(restartCount > 6){
+      // Too many restarts in 5 seconds = WebView mic is broken, give up gracefully
+      toast('🎤 Le micro ne reste pas connecté ici — utilisez le clavier 🎤 à la place');
+      stopListening();
+      focusEditor();
+      return;
+    }
+
+    // Small delay avoids the rapid "ding-ding-ding" restart sound
+    clearTimeout(restartTimer);
+    restartTimer = setTimeout(() => {
+      if(isListening){
+        try{ r.start(); } catch(e){ stopListening(); }
+      }
+    }, 300);
   };
 
   r.onerror = (e) => {
@@ -242,8 +266,8 @@ function buildRecognition(){
     if(e.error === 'not-allowed' || e.error === 'permission-denied'){
       toast('🎤 Permission microphone refusée — vérifiez les paramètres');
       stopListening();
-    } else if(e.error === 'no-speech'){
-      // ignore, keep listening
+    } else if(e.error === 'no-speech' || e.error === 'aborted'){
+      // handled by onend restart logic, do nothing here
     } else if(e.error === 'network' || e.error === 'service-not-allowed'){
       toast('💡 Reconnaissance vocale indisponible ici — utilisez le clavier 🎤');
       stopListening();
@@ -272,6 +296,8 @@ function buildRecognition(){
 
 function startListening(){
   try{
+    restartCount = 0;
+    restartWindowStart = Date.now();
     recognition = buildRecognition();
     isListening = true;
     recognition.start();
@@ -283,6 +309,7 @@ function startListening(){
 
 function stopListening(){
   isListening = false;
+  clearTimeout(restartTimer);
   if(recognition){ try{ recognition.stop(); } catch(e){} }
   document.getElementById('mic-btn').style.borderColor = '';
   document.getElementById('mic-btn').style.background = '';
